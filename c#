@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace gun
+{
+    public struct user
+    {
+        public int hp;
+        public string name;
+
+        public int bullets;
+    }
+    class Program
+    {
+
+        public static user bob;
+
+        static int reload(int bullets)
+        {
+            bullets = 30;
+            Console.WriteLine("Оружие пеерзаряжено. Можно стрелять.");
+            return bullets;
+        }
+        static int shoot(int bullets)
+        {
+            if (bullets > 0)
+            {
+                bullets = bob.bullets - 1;
+                bob.bullets = bullets;
+            }
+            else
+            {
+                Console.WriteLine("\n Патроны кончились. Нажмите R что бы перезарядить.");
+            }
+            return bullets;
+        }
+        static void Main(string[] args)
+        {
+            bob = new user();
+            bob.hp = 100;
+            bob.name = "bob";
+            bob.bullets = 30;
+
+            Console.WriteLine("\n Что бы стрелять нажмите 'T' А что бы перезарядиться нажмите 'R'");
+            while (true)
+            {
+                var input = Console.ReadKey();
+                switch (input.Key)
+                {
+                    case ConsoleKey.T:
+                        shoot(bob.bullets);
+                        Console.WriteLine("\n Выстрел.");
+                        break;
+
+                    case ConsoleKey.R:
+                        reload(bob.bullets);
+                        break;
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
