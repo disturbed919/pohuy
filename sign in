@@ -1,0 +1,116 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace sign
+{
+    class Program
+    {
+        static string path = @"C:\Users\MD5\Desktop\c#\baurzhanBeglerov\users\";
+        static string name = "users";
+        static string ext = ".txt";
+        static void Main(string[] args) 
+        {
+            string content;
+            string finalpath = path + name + ext;
+
+            bool gologin = false;
+            bool gopass = false;
+            do
+            {
+                Console.WriteLine("Авторизация - 'A' Регистрация - 'B'.");
+
+                var input = Console.ReadKey();
+                Console.Clear();
+
+                switch (input.Key)
+                {
+                    case ConsoleKey.A:
+                        Console.WriteLine("Авторизация: ");
+                        Console.WriteLine("Введите логин.");
+                        string login = Console.ReadLine();
+
+                        if (login != "")
+                        {
+                            do
+                            {
+                                Console.WriteLine("Введите пароль.");
+                                string password = Console.ReadLine();
+                                if (password != "")
+                                {
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Вы не ввели пароль");
+                                    gopass = true;
+                                }
+                            } while (gopass);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Вы не ввели логин.");
+                            gologin = true;
+                        }
+
+
+                        Console.Clear();
+                        break;
+
+                    case ConsoleKey.B:
+                        Console.WriteLine("Регистрация. ");
+                        Console.WriteLine("Введите логин:");
+                        string signlogin = Console.ReadLine();
+                        if (signlogin != "")
+                        {
+                            do
+                            {
+                                Console.WriteLine("Введите пароль^");
+                                string signpassword = Console.ReadLine();
+                                if (signpassword != "")
+                                {
+                                    content = "\n\n" + signlogin + "\n" + signpassword;
+
+                                    using (FileStream file = new FileStream(finalpath, FileMode.Append))
+                                    {
+                                        byte[] contentBuffer = Encoding.Default.GetBytes(content);
+
+                                        file.Write(contentBuffer, 0, contentBuffer.Length);
+                                        file.Close();
+                                    }
+                                    Console.WriteLine("Вы зарегестрировались! \n Вернуться в начало? Да - 'Y' Нет - 'N' ");
+                                    var input2 = Console.ReadKey();
+                                    Console.Clear();
+                                    switch (input2.Key)
+                                    {
+                                        case ConsoleKey.Y:
+                                            gologin = true;
+                                            break;
+                                        case ConsoleKey.N:
+                                            gologin = false;
+                                            break;
+
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Вы не ввели пароль");
+                                    gopass = true;
+                                }
+                            } while (gopass);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Вы не ввели логин.");
+                            gologin = true;
+                        }
+
+                        Console.Clear();
+                        break;
+                }
+            } while (gologin);
+        }
+    }
+}
